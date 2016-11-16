@@ -17,8 +17,7 @@ public class BookDaoSqlite implements BookDao {
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:library.db");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         createTable();
@@ -33,11 +32,10 @@ public class BookDaoSqlite implements BookDao {
                 + ");";
 
 
-        try{
+        try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Nie udalo sie wykonac SQL " + e.getMessage());
         }
     }
@@ -56,5 +54,10 @@ public class BookDaoSqlite implements BookDao {
     @Override
     public List<Book> getAllBooks() {
         return null;
+    }
+
+
+    public static void main(String[] args) {
+        BookDaoSqlite bookDaoSqlite = new BookDaoSqlite();
     }
 }
