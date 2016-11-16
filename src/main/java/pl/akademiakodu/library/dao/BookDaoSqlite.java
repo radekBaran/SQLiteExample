@@ -36,19 +36,40 @@ public class BookDaoSqlite implements BookDao {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println("Nie udalo sie wykonac SQL " + e.getMessage());
+            System.out.println("Nie udało się wykonać SQL " + e.getMessage());
         }
     }
 
+    /*
+     INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+    VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway');
+    */
 
     @Override
     public void addBook(Book book) {
+        String addBook = "INSERT INTO Books (title, author, pages)"
+                + "VALUES ('"
+                + book.getTitle() +"','"
+                + book.getAuthor() +"',"
+                + book.getPages() +");";
 
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(addBook);
+        } catch (SQLException e){
+            System.out.println("Nie udało się dodać książki");
+        }
     }
+
+    /*
+      DELETE FROM table_name
+      WHERE some_column=some_value;
+    */
 
     @Override
     public void removeBook(Book book) {
-
+//        String removeBook = "DELETE FROM Books WHERE "
+//                + ;
     }
 
     @Override
@@ -59,5 +80,6 @@ public class BookDaoSqlite implements BookDao {
 
     public static void main(String[] args) {
         BookDaoSqlite bookDaoSqlite = new BookDaoSqlite();
+        bookDaoSqlite.addBook(new Book("Bolek i Lolek", "Jepetto", 130));
     }
 }

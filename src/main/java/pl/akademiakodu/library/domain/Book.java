@@ -15,10 +15,10 @@ public class Book {
         this.pages = pages;
     }
 
-    public Book(int id, String title, String author) {
-        this.id = id;
+    public Book(String title, String author, int pages) {
         this.title = title;
         this.author = author;
+        this.pages = pages;
     }
 
     public Book(String title, String author) {
