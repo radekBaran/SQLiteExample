@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import static javafx.scene.input.KeyCode.L;
+
 public class BookDaoSqlite implements BookDao {
 
     private Connection connection;
@@ -105,9 +107,7 @@ public class BookDaoSqlite implements BookDao {
 
     @Override
     public List<Book> getAllBooks() {
-        List<Book> books = new LinkedList<Book>();
-        Book book = new Book();
-        String showBooks = "SELECT * FROM " + book.getClass().getSimpleName() + "s";
+
         return null;
     }
 
