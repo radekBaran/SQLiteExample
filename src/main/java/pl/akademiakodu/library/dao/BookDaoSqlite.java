@@ -2,6 +2,7 @@ package pl.akademiakodu.library.dao;
 
 import pl.akademiakodu.library.domain.Book;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -47,16 +48,35 @@ public class BookDaoSqlite implements BookDao {
 
     @Override
     public void addBook(Book book) {
-        String addBook = "INSERT INTO Books (title, author, pages)"
-                + "VALUES ('"
-                + book.getTitle() +"','"
-                + book.getAuthor() +"',"
-                + book.getPages() +");";
+        // REFLEKSJA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        String simpleClassName = book.getClass().getSimpleName();
+        System.out.println(simpleClassName);
+        Field[] fields = book.getClass().getDeclaredFields();
+
+        StringBuilder atributeString = new StringBuilder(" (");
+
+        for(Field field : fields) {
+            if ( !field.getName().equals("id") ){
+                atributeString.append(field.getName());
+                atributeString.append(",");
+            }
+            System.out.println(field.getName());
+            System.out.println(field.getType());
+        }
+        atributeString.deleteCharAt(atributeString.length() - 1);
+        atributeString.append(")");
+        System.out.println(atributeString);
+
+        String addBook = "INSERT INTO " + simpleClassName + "s " + atributeString
+                + " VALUES ('"
+                + book.getTitle() + "','"
+                + book.getAuthor() + "',"
+                + book.getPages() + ")";
 
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(addBook);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Nie udało się dodać książki");
         }
     }
@@ -68,8 +88,15 @@ public class BookDaoSqlite implements BookDao {
 
     @Override
     public void removeBook(Book book) {
-//        String removeBook = "DELETE FROM Books WHERE "
-//                + ;
+        String removeBook = "DELETE FROM Books WHERE title ='"
+                + book.getTitle() + "'";
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(removeBook);
+        } catch (SQLException e) {
+            System.out.println("Nie udało się usunąć książki o tytule " + book.getTitle());
+        }
     }
 
     @Override
@@ -80,6 +107,12 @@ public class BookDaoSqlite implements BookDao {
 
     public static void main(String[] args) {
         BookDaoSqlite bookDaoSqlite = new BookDaoSqlite();
-        bookDaoSqlite.addBook(new Book("Bolek i Lolek", "Jepetto", 130));
+
+        bookDaoSqlite.addBook(new Book("W pustyni i w puszczy", "Sienkiewicz", 400));
+
+
+        String title = "W pustyni i w pusczzy";
+        String title2 = "Bolek i Lolek";
+        bookDaoSqlite.removeBook(new Book(title2));
     }
 }
