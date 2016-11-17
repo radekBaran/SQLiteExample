@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BookDaoSqlite implements BookDao {
@@ -99,8 +100,12 @@ public class BookDaoSqlite implements BookDao {
         }
     }
 
+
     @Override
     public List<Book> getAllBooks() {
+        List<Book> books = new LinkedList<Book>();
+        Book book = new Book();
+        String showBooks = "SELECT * FROM " + book.getClass().getSimpleName() + "s";
         return null;
     }
 
