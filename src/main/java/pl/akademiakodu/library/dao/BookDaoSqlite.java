@@ -49,10 +49,12 @@ public class BookDaoSqlite implements BookDao {
 
     @Override
     public void addBook(Book book) {
+
         // REFLEKSJA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         String simpleClassName = book.getClass().getSimpleName();
         System.out.println(simpleClassName);
         Field[] fields = book.getClass().getDeclaredFields();
+
 
         StringBuilder atributeString = new StringBuilder(" (");
 
